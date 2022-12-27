@@ -1,0 +1,23 @@
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+
+  - name: "Transfer the script to the node"
+    copy:
+      src: /opt/pushgateway-Ansible/memory.sh
+      dest: /opt/custom_exporters/memory.sh
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: "Cronjob Creation"
+    cron:
+      name: "memory Cronjob Creation"
+      state: present
+      minute: "*"
+      hour: "*"
+      day: "*"
+      month: "*"
+      weekday: "*"
+      job: "/opt/custom_exporters/memory.sh"
